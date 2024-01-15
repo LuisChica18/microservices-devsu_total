@@ -1,6 +1,6 @@
 package com.devsu.microservicebanking;
 
-import com.devsu.microservicebanking.entities.Account;
+import com.devsu.microservicebanking.models.entities.Account;
 import com.devsu.microservicebanking.externalServices.ClientService;
 import com.devsu.microservicebanking.repositories.AccountRepository;
 import com.devsu.microservicebanking.repositories.MovementRepository;
@@ -44,7 +44,7 @@ class MicroserviceBankingApplicationTests {
     @Test
     void contextLoads() {
         when(accountRepository.findById(1L)).thenReturn(Optional.of(DataSeed.account001));
-        when(accountRepository.findById(2L)).thenReturn(Optional.of(DataSeed.account002));
+//        when(accountRepository.findById(2L)).thenReturn(Optional.of(DataSeed.account002));
         when(clientService.getClient(1L)).thenReturn(DataSeed.client001);
 
         Optional<Account> account = accountService.getAccountById(1L);

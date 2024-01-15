@@ -10,6 +10,7 @@ services:
       MYSQL_DATABASE: devsu
     volumes:
       - data-mysql:/var/lib/mysql
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_general_ci']
     restart: always
     networks:
       - network01
@@ -20,7 +21,7 @@ services:
       context: ./
       dockerfile: ./registry-service/Dockerfile
     ports:
-      - "8000:8000"
+      - "8761:8761"
     env_file: ./registry-service/.env
     networks:
       - network01
@@ -33,7 +34,8 @@ services:
       dockerfile: ./microservice-client/Dockerfile
     ports:
       - "8001:8001"
-    env_file: ./microservice-client/.env
+    env_file:
+      - ./microservice-client/.env
     networks:
       - network01
     depends_on:

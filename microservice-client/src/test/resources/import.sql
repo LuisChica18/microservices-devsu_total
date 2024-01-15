@@ -1,5 +1,5 @@
 INSERT INTO persona (edad, direccion, genero, identificacion, nombre, telefono) VALUES(23, 'Santo Domingo', 'Masculino', '000000000', 'Coco Cocodrilo', '0999999999');
-INSERT INTO cliente (estado, id, contraseña) VALUES(true, 1, 'uno');
+INSERT INTO cliente (estado, id, contrasena) VALUES(true, 1, 'uno');
 --
 --
 -- INSERT INTO cuenta (estado, saldo_inicial, cliente_id, numero_cuenta, tipo_cuenta) VALUES(true, 2500, 1, '252252', 'AHORROS');

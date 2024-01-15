@@ -1,6 +1,5 @@
-package com.devsu.microservicebanking.utils.model;
+package com.devsu.microservicebanking.models;
 
-import com.devsu.microserviceclient.entities.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Client extends Person {
+public class Client {
 
     private Long id;
 

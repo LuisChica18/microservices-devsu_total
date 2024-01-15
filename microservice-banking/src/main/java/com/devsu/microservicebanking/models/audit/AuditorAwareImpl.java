@@ -1,4 +1,4 @@
-package com.devsu.microservicebanking.entities;
+package com.devsu.microservicebanking.models.audit;
 
 import org.springframework.data.domain.AuditorAware;
 

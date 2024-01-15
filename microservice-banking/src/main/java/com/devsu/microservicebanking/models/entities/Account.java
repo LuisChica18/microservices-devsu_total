@@ -1,15 +1,13 @@
-package com.devsu.microservicebanking.entities;
+package com.devsu.microservicebanking.models.entities;
 
 import com.devsu.microservicebanking.enums.AccountTypeEnum;
-import com.devsu.microserviceclient.entities.Client;
+import com.devsu.microservicebanking.models.Client;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "cuenta")
@@ -17,6 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Data
 @Builder
+@EqualsAndHashCode(callSuper=false)
 public class Account {
 
     @Id
@@ -37,8 +36,11 @@ public class Account {
     @Column(name = "estado")
     private Boolean state;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Client.class)
-    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cuenta_id")
+    private List<AccountClient> accountClient;
+
+    @Transient
     private Client client;
     
 }

@@ -1,6 +1,6 @@
 package com.devsu.microservicebanking.config;
 
-import com.devsu.microservicebanking.entities.AuditorAwareImpl;
+import com.devsu.microservicebanking.models.audit.AuditorAwareImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

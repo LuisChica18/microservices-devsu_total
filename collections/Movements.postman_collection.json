@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"movementDate\": \"2023-01-09 07:02:59\",\n    \"movementType\": \"DEPOSITO\",\n    \"amount\": 800,\n    \"balance\": 93211,\n    \"account\":{\n        \"id\":1\n    }\n}",
+					"raw": "{\n\t\"movementDate\": \"2023-01-09 07:02:59\",\n    \"movementType\": \"RETIRO\",\n    \"amount\": 800,\n    \"balance\": 93211,\n    \"account\":{\n        \"id\":1\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"

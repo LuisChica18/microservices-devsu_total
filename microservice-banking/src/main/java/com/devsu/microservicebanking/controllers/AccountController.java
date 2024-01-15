@@ -1,12 +1,11 @@
 package com.devsu.microservicebanking.controllers;
 
-import com.devsu.microservicebanking.entities.Account;
+import com.devsu.microservicebanking.exceptions.ResourceNotFoundException;
+import com.devsu.microservicebanking.models.Client;
+import com.devsu.microservicebanking.models.entities.Account;
 import com.devsu.microservicebanking.enums.AccountTypeEnum;
 import com.devsu.microservicebanking.services.AccountService;
-import com.devsu.microserviceclient.entities.Client;
-import com.devsu.microserviceclient.exceptions.ResourceNotFoundException;
 import feign.FeignException;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,7 @@
 package com.devsu.microservicebanking.controllers;
 
-import com.devsu.microservicebanking.entities.Movement;
+import com.devsu.microservicebanking.models.Report;
+import com.devsu.microservicebanking.models.entities.Movement;
 import com.devsu.microservicebanking.services.MovementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,17 @@ public class MovementController {
         return new ResponseEntity<>(createMovement, HttpStatus.CREATED);
     }
 
+//    @GetMapping("/reporte")
+//    public List<Map<String, Object>> movementsReport(
+//            @RequestParam Long clientId,
+//            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
+//            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo
+//    ) {
+//        return movementService.getMovementClientAccountRecords(clientId, dateFrom, dateTo);
+//    }
+
     @GetMapping("/reporte")
-    public List<Map<String, Object>> movementsReport(
+    public List<Report> movementsReport(
             @RequestParam Long clientId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo

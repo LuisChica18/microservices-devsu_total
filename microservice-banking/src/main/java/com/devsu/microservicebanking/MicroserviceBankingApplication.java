@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EntityScan({"com.devsu.microserviceclient.entities",
-            "com.devsu.microservicebanking.entities"})
+            "com.devsu.microservicebanking.models"})
 @EnableDiscoveryClient
 @EnableFeignClients
 public class MicroserviceBankingApplication {

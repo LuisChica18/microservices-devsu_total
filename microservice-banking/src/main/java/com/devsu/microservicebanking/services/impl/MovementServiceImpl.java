@@ -1,7 +1,10 @@
 package com.devsu.microservicebanking.services.impl;
 
-import com.devsu.microservicebanking.entities.Account;
-import com.devsu.microservicebanking.entities.Movement;
+import com.devsu.microservicebanking.enums.AccountTypeEnum;
+import com.devsu.microservicebanking.enums.MovementTypeEnum;
+import com.devsu.microservicebanking.models.Report;
+import com.devsu.microservicebanking.models.entities.Account;
+import com.devsu.microservicebanking.models.entities.Movement;
 import com.devsu.microservicebanking.exceptions.AccountNotFoundException;
 import com.devsu.microservicebanking.exceptions.BalanceLessThanZeroException;
 import com.devsu.microservicebanking.exceptions.MovementTypeNotFoundException;
@@ -14,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MovementServiceImpl implements MovementService {
@@ -89,7 +94,31 @@ public class MovementServiceImpl implements MovementService {
     }
 
     @Override
-    public List<Map<String, Object>> getMovementClientAccountRecords(Long clientId, Date dateFrom, Date dateTo) {
-        return movementRepository.getMovementClientAccountRecords(clientId, dateFrom, dateTo);
+    public List<Report> getMovementClientAccountRecords(Long clientId, Date dateFrom, Date dateTo) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        List<Map<String, Object>> movements =  movementRepository.getMovementClientAccountRecords(clientId, dateFrom, dateTo);
+        return movements.stream()
+                .map(data -> Report.builder()
+                        .client(data.get("Cliente").toString())
+                        .accountNumber(data.get("Numero Cuenta").toString())
+                        .previousBalance(new BigDecimal(data.get("Saldo Inicial").toString()))
+                        .movement(new BigDecimal(data.get("Movimiento").toString()))
+                        .balance(new BigDecimal(data.get("Saldo Disponible").toString()))
+                        .dateTransaction(LocalDateTime.parse(data.get("Fecha").toString(), formatter))
+                        .movementType(AccountTypeEnum.valueOf(data.get("Tipo").toString()))
+                        .status(Boolean.parseBoolean(data.get("Estado").toString()))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void initialDeposit(Account account, BigDecimal amount){
+        Movement movement = new Movement();
+        movement.setMovementDate(LocalDateTime.now());
+        movement.setMovementType(MovementTypeEnum.DEPOSITO);
+        movement.setAmount(amount);
+        movement.setBalance(amount);
+        movement.setAccount(account);
+        movementRepository.save(movement);
     }
 }

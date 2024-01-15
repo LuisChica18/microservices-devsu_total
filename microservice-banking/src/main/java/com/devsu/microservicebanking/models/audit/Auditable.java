@@ -1,4 +1,4 @@
-package com.devsu.microservicebanking.entities;
+package com.devsu.microservicebanking.models.audit;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-abstract class Auditable<U> {
+public abstract class Auditable<U> {
 
     @CreatedBy
     protected U createdBy;

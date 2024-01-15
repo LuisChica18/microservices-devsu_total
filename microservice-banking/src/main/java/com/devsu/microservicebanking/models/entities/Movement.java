@@ -1,12 +1,13 @@
-package com.devsu.microservicebanking.entities;
+package com.devsu.microservicebanking.models.entities;
 
+import com.devsu.microservicebanking.models.audit.Auditable;
 import com.devsu.microservicebanking.enums.MovementTypeEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class Movement extends Auditable<String> {
 
     @Id

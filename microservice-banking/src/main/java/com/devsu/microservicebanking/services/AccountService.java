@@ -1,6 +1,6 @@
 package com.devsu.microservicebanking.services;
 
-import com.devsu.microservicebanking.entities.Account;
+import com.devsu.microservicebanking.models.entities.Account;
 
 import java.util.List;
 import java.util.Optional;

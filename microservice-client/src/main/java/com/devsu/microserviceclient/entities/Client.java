@@ -12,7 +12,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper=false)
 public class Client extends Person {
 
-    @Column(name = "contraseña", nullable = false)
+    @Column(name = "contrasena", nullable = false)
     @NotNull(message = "La contraseña es requerida")
     private String password;
 

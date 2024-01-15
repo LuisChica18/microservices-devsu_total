@@ -1,15 +1,22 @@
 package com.devsu.microservicebanking.services.impl;
 
-import com.devsu.microservicebanking.entities.Account;
+import com.devsu.microservicebanking.exceptions.AccountNotFoundException;
+import com.devsu.microservicebanking.exceptions.ResourceNotFoundException;
+import com.devsu.microservicebanking.models.Client;
+import com.devsu.microservicebanking.models.entities.Account;
 import com.devsu.microservicebanking.externalServices.ClientService;
+import com.devsu.microservicebanking.models.entities.AccountClient;
 import com.devsu.microservicebanking.repositories.AccountRepository;
 import com.devsu.microservicebanking.services.AccountService;
-import com.devsu.microserviceclient.entities.Client;
+import com.devsu.microservicebanking.services.MovementService;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,9 +27,12 @@ public class AccountServiceImpl implements AccountService {
 
     private ClientService clientService;
 
+    private MovementService movementService;
+
     @Autowired
-    public AccountServiceImpl(AccountRepository repository, ClientService clientService) {
+    public AccountServiceImpl(AccountRepository repository, @Lazy MovementService movementService, ClientService clientService) {
         this.repository = repository;
+        this.movementService = movementService;
         this.clientService = clientService;
     }
 
@@ -38,10 +48,24 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public Account createOrUpdateAccount(Account account) throws FeignException {
-        Client client = clientService.getClient(account.getClient().getId());
-        account.setClient(client);
-        return repository.save(account);
+    public Account createOrUpdateAccount(Account account) throws ResourceNotFoundException, AccountNotFoundException {
+        List<AccountClient> accountClients = new ArrayList<>();
+        try {
+            Client client = clientService.getClient(account.getClient().getId());
+            AccountClient accountClient = new AccountClient();
+            accountClient.setClientId(client.getId());
+            accountClients.add(accountClient);
+            account.setClient(client);
+            account.setAccountClient(accountClients);
+
+            Account accountSaved = repository.save(account);
+            movementService.initialDeposit(accountSaved, account.getInitialBalance());
+            return accountSaved;
+        }catch (FeignException e){
+            throw new ResourceNotFoundException(e.getMessage());
+        }catch (DataIntegrityViolationException e){
+            throw new AccountNotFoundException("Cuenta ya registrada");
+        }
     }
 
     @Override
